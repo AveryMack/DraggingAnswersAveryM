@@ -71,12 +71,18 @@ local alternateAnswerBox3PreviousX
 local userAnswerBoxPlaceholder
 
 -- sound effects
-local correctSound
-local booSound
+local correctSound = audio.loadSound("Correct.wav")
+local correctSoundChannel
+local booSound = audio.loadSound("Sounds/boo.mp3")
+local booSoundChannel
 
 -- points 
 local points = 0
 local pointsObject 
+
+-- incorrect answer 
+local incorrect = 2
+local incorrectObject
 
 -----------------------------------------------------------------------------------------
 -- LOCAL FUNCTIONS
@@ -225,10 +231,6 @@ local function PositionAnswers()
     end
 end
 
--- Transitioning Function to YouWin screen
-local function YouWinTransitionLevel1( )
-    composer.gotoScene("you_win", {effect = "fade", time = 500})
-end
 
 -- Function to Restart Level 1
 local function RestartLevel1()
@@ -243,10 +245,32 @@ local function CheckUserAnswerInput()
     if (userAnswer == correctAnswer) then
         points = points + 1 
         pointsObject.text = points .. ""
+        correctSoundChannel = audio.play(correctSound)
+    else
+        incorrect = incorrect - 1
+        incorrectObject.text = " incorrect answer = " .. incorrect
+        booSoundChannel = audio.play(booSound)
     end 
-          
-    timer.performWithDelay(1600, RestartLevel1) 
+
+    if (incorrect == 0) then 
+        composer.gotoScene("you_lose", {effect = "fade", time = 500})
+        pointsObject.isVisible = false
+        incorrectObject.isVisible = false 
+    else 
+        timer.performWithDelay(1600, RestartLevel1) 
+
+    end
+
+    if (points == 3) then
+        composer.gotoScene("you_win", {effect = "fade", time = 500})
+        pointsObject.isVisible = false
+        incorrectObject.isVisible = false
+    else
+        timer.performWithDelay(1600, RestartLevel1) 
+
+    end
 end
+
 
 local function TouchListenerAnswerbox(touch)
     --only work if none of the other boxes have been touched
@@ -463,9 +487,15 @@ function scene:create( event )
     questionText.y = display.contentHeight * 0.9
 
     -- display the points object
-    pointsObject = display.newText( "points" , 0, 0, nil, 100)
-    pointsObject.x = display.contentWidth * 1/3
+    pointsObject = display.newText( "" , 0, 0, nil, 100)
+    pointsObject.x = display.contentWidth * 0.5/3
     pointsObject.y = display.contentHeight * 1/8
+
+    -- display the incorrect object
+    incorrectObject = display.newText(" incorrect answer = ", 0, 0, nil, 30)
+    incorrectObject.x = display.contentWidth * 0.35/3
+    incorrectObject.y = display.contentHeight * 2/8
+
 
     -- create the soccer ball and place it on the scene
     soccerball = display.newImageRect("Images/soccerball.png", 60, 60, 0, 0)
