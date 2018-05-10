@@ -71,10 +71,12 @@ local alternateAnswerBox3PreviousX
 local userAnswerBoxPlaceholder
 
 -- sound effects
-local correctSound = audio.loadSound("Correct.wav")
+local correctSound = audio.loadSound("Correct.mp3")
 local correctSoundChannel
 local booSound = audio.loadSound("Sounds/boo.mp3")
 local booSoundChannel
+local bkgSound = audio.loadSound("Sounds/yabbadabbalaugh.wav")
+local bkgSoundChannel
 
 -- points 
 local points = 0
@@ -153,16 +155,16 @@ local function PositionAnswers()
     -- random position 1
     if (randomPosition == 1) then
         -- set the new y-positions of each of the answers
-        answerbox.y = display.contentHeight * 0.4
+        answerbox.y = display.contentHeight * 0.1
 
         --alternateAnswerBox2
-        alternateAnswerBox2.y = display.contentHeight * 0.70
+        alternateAnswerBox2.y = display.contentHeight * 0.2
 
         --alternateAnswerBox1
-        alternateAnswerBox1.y = display.contentHeight * 0.55
+        alternateAnswerBox1.y = display.contentHeight * 0.3
 
         --alternateAnswerBox3
-        alternateAnswerBox3.y = display.contentHeight * 0.8
+        alternateAnswerBox3.y = display.contentHeight * 0.4
 
         ---------------------------------------------------------
         --remembering their positions to return the answer in case it's wrong
@@ -174,16 +176,16 @@ local function PositionAnswers()
     -- random position 2
     elseif (randomPosition == 2) then
 
-        answerbox.y = display.contentHeight * 0.55
+        answerbox.y = display.contentHeight * 0.2
         
         --alternateAnswerBox2
-        alternateAnswerBox2.y = display.contentHeight * 0.8
+        alternateAnswerBox2.y = display.contentHeight * 0.3
 
         --alternateAnswerBox1
-        alternateAnswerBox1.y = display.contentHeight * 0.7
+        alternateAnswerBox1.y = display.contentHeight * 0.4
 
         --alternateAnswerBox3
-        alternateAnswerBox3.y = display.contentHeight * 0.4
+        alternateAnswerBox3.y = display.contentHeight * 0.1
 
         --remembering their positions to return the answer in case it's wrong
         alternateAnswerBox1PreviousY = alternateAnswerBox1.y
@@ -193,16 +195,16 @@ local function PositionAnswers()
 
     -- random position 3
      elseif (randomPosition == 3) then
-        answerbox.y = display.contentHeight * 0.70
+        answerbox.y = display.contentHeight * 0.3
 
         --alternateAnswerBox2
         alternateAnswerBox2.y = display.contentHeight * 0.4
 
         --alternateAnswerBox1
-        alternateAnswerBox1.y = display.contentHeight * 0.8
+        alternateAnswerBox1.y = display.contentHeight * 0.1
 
         --alternateAnswerBox3
-        alternateAnswerBox3.y = display.contentHeight * 0.55
+        alternateAnswerBox3.y = display.contentHeight * 0.2
 
         --remembering their positions to return the answer in case it's wrong
         alternateAnswerBox1PreviousY = alternateAnswerBox1.y
@@ -212,16 +214,16 @@ local function PositionAnswers()
 
     -- random position 4 
      elseif (randomPosition == 4) then
-        answerbox.y = display.contentHeight * 0.8
+        answerbox.y = display.contentHeight * 0.4
 
         --alternateAnswerBox2
-        alternateAnswerBox2.y = display.contentHeight * 0.55
+        alternateAnswerBox2.y = display.contentHeight * 0.1
 
         --alternateAnswerBox1
-        alternateAnswerBox1.y = display.contentHeight * 0.4
+        alternateAnswerBox1.y = display.contentHeight * 0.2
 
         --alternateAnswerBox3
-        alternateAnswerBox3.y = display.contentHeight * 0.7
+        alternateAnswerBox3.y = display.contentHeight * 0.3
 
         --remembering their positions to return the answer in case it's wrong
         alternateAnswerBox1PreviousY = alternateAnswerBox1.y
@@ -245,11 +247,11 @@ local function CheckUserAnswerInput()
     if (userAnswer == correctAnswer) then
         points = points + 1 
         pointsObject.text = points .. ""
-        correctSoundChannel = audio.play(correctSound)
+        correctSoundChannel = audio.play (correctSound)
     else
         incorrect = incorrect - 1
         incorrectObject.text = " incorrect answer = " .. incorrect
-        booSoundChannel = audio.play(booSound)
+        booSoundChannel = audio.play (booSound)
     end 
 
     if (incorrect == 0) then 
@@ -482,9 +484,9 @@ function scene:create( event )
     bkg_image.height = display.contentHeight
 
     --the text that displays the question
-    questionText = display.newText( "" , 0, 0, nil, 100)
-    questionText.x = display.contentWidth * 0.3
-    questionText.y = display.contentHeight * 0.9
+    questionText = display.newText( "" , 0, 0, nil, 75)
+    questionText.x = display.contentWidth * 0.6
+    questionText.y = display.contentHeight * 0.6
 
     -- display the points object
     pointsObject = display.newText( "" , 0, 0, nil, 100)
@@ -509,10 +511,10 @@ function scene:create( event )
     alternateAnswerBox3AlreadyTouched = false
 
     --create answerbox alternate answers and the boxes to show them
-    answerbox = display.newText("", display.contentWidth * 0.9, 0, nil, 100)
-    alternateAnswerBox1 = display.newText("", display.contentWidth * 0.9, 0, nil, 100)
-    alternateAnswerBox2 = display.newText("", display.contentWidth * 0.9, 0, nil, 100)
-    alternateAnswerBox3 = display.newText("", display.contentWidth * 0.9, 0, nil, 100)
+    answerbox = display.newText("", display.contentWidth * 0.9, 0, nil, 75)
+    alternateAnswerBox1 = display.newText("", display.contentWidth * 0.9 , 0, nil, 75)
+    alternateAnswerBox2 = display.newText("", display.contentWidth * 0.9, 0, nil, 75)
+    alternateAnswerBox3 = display.newText("", display.contentWidth * 0.9, 0, nil, 75)
 
     -- set the x positions of each of the answer boxes
     answerboxPreviousX = display.contentWidth * 0.9
@@ -523,8 +525,8 @@ function scene:create( event )
 
     -- the black box where the user will drag the answer
     userAnswerBoxPlaceholder = display.newImageRect("Images/userAnswerBoxPlaceholder.png",  130, 130, 0, 0)
-    userAnswerBoxPlaceholder.x = display.contentWidth * 0.6
-    userAnswerBoxPlaceholder.y = display.contentHeight * 0.9
+    userAnswerBoxPlaceholder.x = display.contentWidth * 0.85
+    userAnswerBoxPlaceholder.y = display.contentHeight * 0.6
 
     ----------------------------------------------------------------------------------
     --adding objects to the scene group
@@ -545,6 +547,8 @@ end --function scene:create( event )
 
 -- The function called when the scene is issued to appear on screen
 function scene:show( event )
+
+    bkgSoundChannel = audio.play(correctSound)
 
     -- Creating a group that associates objects with the scene
     local sceneGroup = self.view
