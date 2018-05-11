@@ -71,7 +71,7 @@ local alternateAnswerBox3PreviousX
 local userAnswerBoxPlaceholder
 
 -- sound effects
-local correctSound = audio.loadSound("Correct.mp3")
+local correctSound = audio.loadSound("Sounds/Correct.mp3")
 local correctSoundChannel
 local booSound = audio.loadSound("Sounds/boo.mp3")
 local booSoundChannel
@@ -548,7 +548,7 @@ end --function scene:create( event )
 -- The function called when the scene is issued to appear on screen
 function scene:show( event )
 
-    bkgSoundChannel = audio.play(correctSound)
+    
 
     -- Creating a group that associates objects with the scene
     local sceneGroup = self.view
@@ -565,6 +565,7 @@ function scene:show( event )
         -- Called when the scene is now on screen.
         -- Insert code here to make the scene come alive.
         -- Example: start timers, begin animation, play audio, etc.
+        bkgSoundChannel = audio.play(bkgSound)
         RestartLevel1()
         AddAnswerBoxEventListeners() 
 
